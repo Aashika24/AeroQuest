@@ -1,0 +1,235 @@
+import streamlit as st
+import requests 
+
+# ===== NASA Introduction with Real-Time Updates =====
+st.markdown(
+    """
+    <div style='padding:20px; border-radius:15px; background-color:#1B1B2F; color:white; text-align:center;'>
+        <h2>🌌 Welcome to NASA Fun Explorer</h2>
+        <p>NASA (National Aeronautics and Space Administration) leads the world in space exploration and scientific discovery. 
+        Their mission is to explore space, advance scientific knowledge, and develop innovative technologies to benefit humanity.</p>
+        <p>From launching satellites to exploring distant planets, NASA inspires curiosity, education, and discovery for all ages!</p>
+    </div>
+    """, unsafe_allow_html=True
+)
+st.markdown("---", unsafe_allow_html=True)
+
+
+
+# ========== NASA API key ==========
+NASA_API_KEY = "F73FdVEj4riPMEgbtCSrQhCMel4D5stIYP9BWvXK"  
+
+# ========== Function to fetch NASA data ==========
+def fetch_nasa_info(query: str):
+    """
+    Dummy function to simulate fetching NASA data.
+    Replace with real API call using NASA_API_KEY.
+    """
+    # Example: dummy results
+    results = [
+        {
+            "title": f"{query} Mission Overview",
+            "description": f"This is a brief description about {query}.",
+            "url": "https://www.nasa.gov"
+        },
+        {
+            "title": f"{query} Mission Images",
+            "description": f"Collection of images for {query}.",
+            "url": "https://images.nasa.gov"
+        }
+    ]
+    return results
+
+# ========== Streamlit App ==========
+def main():
+    st.set_page_config(page_title="NASA Explorer Chatbot", layout="wide")
+    st.title("🌌 NASA Explorer Chatbot")
+
+    # Initialize chat history
+    if "history" not in st.session_state:
+        st.session_state.history = []
+
+    # Sidebar info
+    st.sidebar.header("About")
+    st.sidebar.write("Ask about any NASA mission or topic and see results in chatbot style.")
+
+    # User input
+    user_input = st.text_input("Type your query here:", key="input")
+
+    if st.button("Send") and user_input:
+        # Append user message
+        st.session_state.history.append(("You", user_input))
+
+        # Call NASA API (or dummy function for now)
+        nasa_results = fetch_nasa_info(user_input)
+
+        # Format bot response
+        bot_reply_lines = []
+        bot_reply_lines.append("**NASA Results:**")
+        for res in nasa_results:
+            bot_reply_lines.append(f"• **{res['title']}**: {res['description']} ([Link]({res['url']}))")
+
+        bot_reply = "\n".join(bot_reply_lines)
+        st.session_state.history.append(("Bot", bot_reply))
+
+    # Display chat history
+    for speaker, msg in st.session_state.history:
+        if speaker == "You":
+            st.markdown(f"**{speaker}:** {msg}")
+        else:
+            st.markdown(f"**{speaker}:** {msg}")
+
+if __name__ == "__main__":
+    st.title("NASA Data App")
+    query = st.text_input("Enter your NASA query")
+    if query:
+        results = fetch_nasa_info(query)
+        for r in results:
+            st.subheader(r["title"])
+            st.write(r["description"])
+            st.markdown(f"[More info]({r['url']})")
+
+
+import streamlit as st
+import random
+
+# ===== Page config =====
+st.set_page_config(page_title="🌌 NASA Fun Explorer", layout="wide", page_icon="🚀")
+
+# ===== Fun Data =====
+fun_facts = [
+    "🌞 The Sun is 93 million miles away from Earth!",
+    "🪐 Jupiter has 79 known moons.",
+    "🕒 A day on Venus is longer than a year on Venus.",
+    "🌌 Neutron stars can spin 600 times per second!",
+    "⛰ Mars has the tallest volcano in the solar system."
+]
+
+mission_updates = [
+    "🚀 Mission Alpha launched successfully!",
+    "🛰 Mission Beta is now in orbit around Mars.",
+    "🔭 Mission Gamma detected new asteroid activity.",
+    "📡 Mission Delta completed data collection phase."
+]
+
+surprises = [
+    "🎉 Keep exploring the universe!",
+    "🪐 Fun fact: Saturn has 82 moons!",
+    "🌌 Space is vast and mysterious!",
+    "👽 Aliens are still a mystery!",
+    "🌠 Make a wish upon a shooting star!"
+]
+
+card_colors = ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF", "#845EC2", "#FF9671"]
+
+# ===== Header =====
+st.markdown("<h1 style='text-align:center; color:#FFD700;'>🌌 NASA Fun Explorer Dashboard</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; color:white;'>Discover fun facts, mission updates, and cosmic surprises!</p>", unsafe_allow_html=True)
+st.markdown("---", unsafe_allow_html=True)
+
+# ===== Fun Interactive Cards in Columns =====
+col1, col2, col3 = st.columns(3)
+
+# --- Did You Know Card ---
+with col1:
+    color = random.choice(card_colors)
+    st.markdown(f"""
+        <div style='padding:20px; border-radius:15px; background-color:{color}; text-align:center;'>
+            <h3>🌟 Did You Know?</h3>
+            <p>Click below to reveal a fun fact!</p>
+        </div>
+    """, unsafe_allow_html=True)
+    if st.button("Show Fact", key="fact"):
+        st.success(random.choice(fun_facts), icon="ℹ")
+
+# --- Mission Updates Card ---
+with col2:
+    color = random.choice(card_colors)
+    st.markdown(f"""
+        <div style='padding:20px; border-radius:15px; background-color:{color}; text-align:center;'>
+            <h3>🚀 Mission Updates</h3>
+            <p>Get the latest mission info!</p>
+        </div>
+    """, unsafe_allow_html=True)
+    if st.button("Latest Update", key="update"):
+        st.info(random.choice(mission_updates), icon="✅")
+
+# --- Surprise Me Card ---
+with col3:
+    color = random.choice(card_colors)
+    st.markdown(f"""
+        <div style='padding:20px; border-radius:15px; background-color:{color}; text-align:center;'>
+            <h3>🎁 Surprise Me</h3>
+            <p>Click for a cosmic surprise!</p>
+        </div>
+    """, unsafe_allow_html=True)
+    if st.button("Surprise!", key="surprise"):
+        st.balloons()
+        st.warning(random.choice(surprises), icon="✨")
+
+import streamlit as st
+import random
+
+# List of space-themed GIF URLs
+space_gifs = [
+    "https://media.giphy.com/media/3oEjI0UdFkyLtpFJN6/giphy.gif" # Galaxy animation
+       # Starry sky
+]
+
+# Set the page title and layout
+st.set_page_config(page_title="🌌 Cosmic GIF Fun", layout="wide")
+
+# Create an expander for the GIF section
+with st.expander("🌌 Cosmic GIF Fun"):
+    # Display a random GIF from the list
+    selected_gif = random.choice(space_gifs)
+    st.image(selected_gif, use_container_width=True)
+
+    # Button to refresh and show a new GIF
+    if st.button("Show Another GIF"):
+        selected_gif = random.choice(space_gifs)
+        st.image(selected_gif, use_column_width=True)
+
+
+
+with st.expander("🪐 More Space Facts"):
+ for fact in fun_facts:
+        st.write(fact)
+
+with st.expander("👽 Mini Space Quiz"):
+    st.write("Q: Which planet spins backwards?")
+    options = ["Venus", "Mars", "Jupiter", "Mercury"]
+    choice = st.radio("Choose an answer:", options)
+    if st.button("Check Answer", key="quiz"):
+        if choice == "Venus":
+            st.success("Correct! 🌟")
+        else:
+            st.error("Oops! Try again. ❌")
+
+st.caption("💡 Tip: Click buttons multiple times for new facts, updates, and surprises!")
+
+
+
+
+
+
+import streamlit as st
+import feedparser  # pip install feedparser
+
+# ===== Page config =====
+st.set_page_config(page_title="🌌 NASA Fun Explorer", layout="wide", page_icon="🚀")
+
+
+# ===== Real-Time NASA News =====
+st.subheader("🚀 Latest NASA News")
+
+# NASA RSS feed
+rss_url = "https://www.nasa.gov/rss/dyn/breaking_news.rss"
+feed = feedparser.parse(rss_url)
+
+# Display top 5 news
+for entry in feed.entries[:5]:
+    st.markdown(f"**{entry.title}**")
+    st.write(entry.summary)
+    st.markdown(f"[Read more]({entry.link})")
+    st.markdown("---")
