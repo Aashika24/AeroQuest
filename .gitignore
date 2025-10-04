@@ -1,0 +1,33 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Environment files (API keys, secrets)
+.env
+*.env
+
+# IDE / Editor folders
+.vscode/
+.idea/
+
+# macOS system files
+.DS_Store
+
+# Streamlit cache
+.streamlit/
+
+# Jupyter / Notebook checkpoints
+.ipynb_checkpoints/
+
+# Build / distribution folders
+build/
+dist/
+*.egg-info/
+
+# Other temporary or unnecessary files
+*.tmp
+*.bak
+*.swp
